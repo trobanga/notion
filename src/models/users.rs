@@ -6,6 +6,8 @@ pub struct UserCommon {
     pub id: UserId,
     pub name: Option<String>,
     pub avatar_url: Option<String>,
+    #[serde(alias = "type")]
+    pub user_type: Option<String>,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
@@ -19,7 +21,7 @@ pub struct Bot {
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
-#[serde(tag = "type", rename_all = "snake_case")]
+#[serde(untagged, rename_all = "snake_case")]
 pub enum User {
     Person {
         #[serde(flatten)]
@@ -29,6 +31,6 @@ pub enum User {
     Bot {
         #[serde(flatten)]
         common: UserCommon,
-        bot: Bot,
+        bot: Option<Bot>,
     },
 }
