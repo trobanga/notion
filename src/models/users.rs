@@ -7,7 +7,7 @@ pub struct UserCommon {
     pub name: Option<String>,
     pub avatar_url: Option<String>,
     #[serde(alias = "type")]
-    pub user_type: Option<String>,
+    pub ty: Option<String>,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
@@ -16,8 +16,16 @@ pub struct Person {
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
+pub struct Owner {
+    #[serde(alias = "type")]
+    ty: Option<String>,
+    workspace: Option<bool>,
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
 pub struct Bot {
-    pub email: String,
+    pub owner: Option<Owner>,
+    pub workspace_name: Option<String>,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
@@ -33,4 +41,13 @@ pub enum User {
         common: UserCommon,
         bot: Option<Bot>,
     },
+}
+
+impl User {
+    pub fn id(&self) -> &UserId {
+        match self {
+            User::Person { common, person: _ } => &common.id,
+            User::Bot { common, bot: _ } => &common.id,
+        }
+    }
 }
