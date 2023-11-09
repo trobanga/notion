@@ -55,7 +55,10 @@ pub struct NotionApi {
 impl NotionApi {
     /// Creates an instance of NotionApi.
     /// May fail if the provided api_token is an improper value.
-    pub fn new(api_token: String) -> Result<Self, Error> {
+    pub fn new(
+        api_token: String,
+        _: Option<String>,
+    ) -> Result<Self, Error> {
         let mut headers = HeaderMap::new();
         headers.insert(
             "Notion-Version",
