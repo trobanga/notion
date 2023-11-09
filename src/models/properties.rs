@@ -234,6 +234,22 @@ pub enum DateOrDateTime {
     DateTime(DateTime<Utc>),
 }
 
+impl std::fmt::Display for DateOrDateTime {
+    fn fmt(
+        &self,
+        f: &mut std::fmt::Formatter<'_>,
+    ) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                DateOrDateTime::Date(date) => date.to_string(),
+                DateOrDateTime::DateTime(dt) => dt.to_rfc3339(),
+            }
+        )
+    }
+}
+
 #[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Clone)]
 pub struct DateValue {
     pub start: DateOrDateTime,
