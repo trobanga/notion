@@ -53,6 +53,7 @@ async fn main() -> Result<()> {
                 "No Notion API token found in either the environment variable \
                         `NOTION_API_TOKEN` or the config file!",
             )?,
+        None,
     )?;
 
     match opts.command {
